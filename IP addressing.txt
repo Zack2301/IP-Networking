@@ -1,0 +1,280 @@
+
+    CI5210 Networking Concepts – 
+Coursework 2
+
+
+
+
+Name: ISAAC AKUAMOAH
+K Number: K1636991
+
+
+				
+
+
+1.	I declare that the attached work is all my own, and that where I have quoted from, used or referred to the opinions, work or writings of others, these have been fully and clearly acknowledged.  
+2.	I am aware of the consequences of late submission.
+
+Contents
+INTRODUCTION	3
+REQUIREMENTS	3
+METHODOLOGY	3
+IDENTIFYING NUMBER OF SUBNETS	3
+IDENTIFYING LARGEST SUBNET	4
+COMPUTING SUPERNET AND SUBNET MASK	4
+COMPUTING NETWORK ADDRESS UTILISATION	4
+LISTING AND ASSIGNING ADDRESSES TO SUBNETS	4
+DESIGN	5
+IMPLEMENTATION	5
+IDENTIFYING THE SUBNET NUMBER AND LARGEST SUBNET	5
+COMPUTING SUPERNET AND SUBNET MASK	6
+COMPUTING ADDRESS UTILISATION	7
+ANALYSING NETWORK ADDRESS UTILISATION	8
+NETWORK ALTERATION	8
+ASSIGNING IP ADDRESSES	10
+EVALUATION	14
+
+
+
+
+
+
+
+
+
+
+INTRODUCTION
+This report is to demonstrate the understanding and implementation of an IP addressing scheme to a given enterprise infrastructure.  The introduction of a fixed length address marking (Classless Inter-Domain Routing) to specify the size of networks within the design and the boundaries of each LAN will be implemented. This method helps determine how physical networks and their hosts addressing is developed and assigned.
+Networks and their devices require unique identifiers (IP address) for their interfaces to ensure packets delivery from one end to another. The structure and growth of a network can influence the IP addressing scheme deployed. In order to maintain a good network structure and support scalability, the practice of IP addressing being subdivided helps overcome address shortcomings. 
+“IP addressing is a hierarchical format of addressing based on concepts of hosts, subnets and domains” (Comer, 2014). An addressing scheme development within this report is based on the specification and physical design of a given company.
+REQUIREMENTS
+A sailing equipment tele-sales supplier is split over two sites. The large Sales and Accounts teams are based in an office suite in Port Solent while the depot is located near Stansted airport. These two sites are connected by a leased line. 
+In Port Solent, the Ethernet LANs of the Sales and Accounts workgroups are connected directly to the sites WAN router. The Sales team is 100 strong while the Accounts team require only 12 workstations. The Heathrow operation is based in two buildings connected together via an ATM site backbone. The first building contains the Design and Logistics workgroups while the second building contains the three Assembly, Testing and Delivery workgroups. Each of the five workgroup subnets based at Stansted are required to support 20 workstations.
+METHODOLOGY
+The steps used for the design addressing scheme are to first identify number of subnets and the largest subnet, compute the subnet and supernet mask for the enterprise network and the address utilisation to help measure how much addresses within the network will be used based on the address mechanism used.
+IDENTIFYING NUMBER OF SUBNETS
+Identifying the subnet numbers means reviewing the design to determine the workgroups connected to a layer 3 device (router). Looking at any point-to-point connections between gateways and linked backbone connections to router interfaces will help conclude the networks that exist within the enterprise. All connections out on a router interface to another device will be counted as a subnet.
+
+IDENTIFYING LARGEST SUBNET
+Reviewing the design requirements to identify the workgroup with the most number of hosts within it by counting the number of workstations. All workgroups will be verified to ensure the number of users provided within the requirements are accurate. The network with the most users will be documented to help determine the number of binary bits required to supply enough IP addresses for that particular LAN.
+
+COMPUTING SUPERNET AND SUBNET MASK 
+The number of bits from a binary table required will be borrowed based on the number of subnets and size of largest LAN. Both bits will be summed up and deducted from the 32 bits of an IPV4 address to provide the supernet mask. The supernet mask bits will then be summed up with the bits borrowed for the number of subnets, to provide the networks subnet mask.
+
+COMPUTING NETWORK ADDRESS UTILISATION
+Once the supernet bits are identified, bits will be subtracted from the bits of an IPV4 address and the result will be recorded in base 2. This will help determine the possible number of addresses a subnet can have for its hosts. Totalling the number of interfaces within the enterprise network that use an IP address, dividing the total by the number of possible address and multiplying the result by 100 will provide a percentage of addresses to be used and ones being wasted.
+
+LISTING AND ASSIGNING ADDRESSES TO SUBNETS
+After identifying the total number subnets, subnet mask and number of hosts within each subnet, the bits borrowed for the subnet id and net id will be calculated to determine the number of bits required for the subnet mask. The decimal last bit borrowed within the binary table system for the mask will determine the increment of each subnet address. Hosts addresses will be assigned based on the subnet id they belong to.
+DESIGN
+ 
+
+IMPLEMENTATION
+Domain address assigned to enterprise network – 210.8.224.0
+Looking at the design, there are gateways deployed within the network in order to send packets with the aid of an IP address. For the enterprises gateways to record all routing information, masks are required to help identify the boundaries in the network. 
+Firstly, the supernet and masks are required to determine which part of the 32 bits in the IP address assigned are the net (domain) id, subnet-id and host-id bits.
+IDENTIFYING THE LARGEST SUBNET
+Number of host in largest LAN = 100 (Sales)
+Number of bits required for hosts = 7 bits
+Justification 
+Hosts use binary 1 and 0 to communicate, which is a base 2 numeral system, the amount of the host within the largest workgroup is 100 meaning 7 bits (27 =128) from the binary system table is borrowed as displayed in the diagram. 128 can accommodate 126 usable addresses. The first address will be the network address and the last is the broadcast address. Having 100 users means borrowing 7 bits will give network administrator enough addresses for the workgroup.
+Table 1- Binary System representing the 8 bits of an octet
+27	26	25	24	23	22	21	20
+128	64	32	16
+8	4	2	1
+
+IDENTIFYING THE NUMBER OF SUBNETS
+Number of Subnets = 9 (7 LANS, 1 Lease Line, 1 backbone)
+Number of subnet id bits required = 4 bits
+Justification
+Using the binary system table, the number of subnets identified requires 24 bits, which represented in base 10 as 16. This is because the number of subnets identified within the design require a reasonable amount of bits from the binary system table in order to allow the assignment of network addresses for all LANs. For example if for instance 3 bits are borrowed for the subnet id bits, this is represented in decimal by 8, which will produce 6 usable subnet addresses and would not be enough addresses for all the LANs within the company.  The 4 bits identified will be enough via calculation to produce 16 subnets addresses, however the amount usable will differ as will be demonstrated. 
+COMPUTING SUPERNET AND SUBNET MASK
+Supernet = Number of hosts bits + Number of subnet id bits
+			7	 +  	4    = 11
+Network address – 11010010.  00001000.  11100000. 00000000
+		            	   +	 +	+	       = 32 bit    - 11 bits = 21
+Supernet Mask - /21
+Subnet Mask = Supernet + Subnet id bits (21 + 4) = 25 bits
+Subnet Mask in binary     1 1 1 1 1 1 1 1     1 1 1 1 1 1 1 1    1 1 1 1 1 1 1 1    1 0 0 0 0 0 0 0					255	           255	   255		128
+The host bits (0s) in the subnet mask identified equals the same host bits identified based on the number of hosts required for the largest LAN (7). 
+Verifying Subnet and Host Bits identified 
+To verifying, the subnet bits identified for the mask is accurate, a logical operation is used on the enterprises subnet and supernet mask.
+Supernet Mask: 1 1 1 1 1 1 1 1    1 1 1 1 1 1 1 1       1 1 1 1 1 0 0 0   0 0 0 0 0 0 0 0
+Subnet Mask:    1 1 1 1 1 1 1 1    1 1 1 1 1 1 1 1       1 1 1 1 1 1 1 1     1 0 0 0 0 0 0 0	
+Both masks above display 21 ones, which represent the network id bits for the enterprise. 7 zeros that represent the host id bits and the remaining 4 bits in red are the subnet id bits. In order to set an appropriate address scheme it is important to identify how many subnets and hosts addresses needed for the within the enterprise infrastructure.
+Subnet Bits = 4 bits
+Subnet bits using binary system = 2 x 2 x 2 x 2 = 16 subnets addresses
+		  = Number of subnets addresses - Network and Broadcast address 
+					     16	 -          (1 + 1)
+				                    16     -                (2) = 14 usable subnet addresses.
+Hosts bits required = 7 bits
+Supernet Mask: 1 1 1 1 1 1 1 1    1 1 1 1 1 1 1 1       1 1 1 1 1 0 0 0   0 0 0 0 0 0 0 0
+Subnet Mask:    1 1 1 1 1 1 1 1    1 1 1 1 1 1 1 1        1 1 1 1 1 1 1 1    1 0 0 0 0 0 0 0		        Host id bits using binary system = 2 x 2 x 2 x 2 x 2 x 2 x 2 = 128 hosts addresses
+Usable number of addresses = Number of hosts addresses - Network + Broadcast addresses
+		               =    128 - (1 + 1)
+		                =   128 -   2 = 126 usable addresses for each subnet
+COMPUTING ADDRESS UTILISATION
+Computing address utilization for the enterprise network design 
+Number of hosts within the network = 224
+
+ Supernet Mask = /21
+Utilisation = 2(32 – supernet)
+	     = 2(32 – 21) 
+                   = 211
+	      = 2048
+Number of hosts interfaces / address space size x 100
+    224 / 2048 = 0.109375 x 100 = 11%.
+ANALYSING NETWORK ADDRESS UTILISATION
+The utilisation of the network is quiet low at 11%. The formula is to help identify how much addresses are used and amount wasted.  Considering only 11% of addresses used for interfaces in the network, 89% of addresses will be wasteful which is not practical to the design. A solution to improve utilisation for the enterprise is to divide the subnet with the largest users to 2 LANS, meaning an additional subnet introduced and an interface connection between the added workgroup and router.
+After altering the network design, the number of subnets has changed due to the additional subnet.
+ NEW NETWORK DESIGN                        
+Number of subnets – 10 (8 LANS, 1 Lease line, 1 backbone)
+Number of host in largest workgroup = 50
+Number of bits required for hosts = 6 bits
+Number of subnet id bits required = 4 bits		       (see binary system table)
+ COMPUTING NEW SUPERNET AND SUBNET MASKS
+Number of host bits + Number of subnet id bits = 6 + 4 = 10 bits
+Network address bits – Total bits = 32 – 10 = 22 bits
+Supernet Mask = /22
+Supernet Mask bits + Subnet id bits = 22 + 4 = 26 bits
+Subnet Mask = 1 1 1 1 1 1 1 1     1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1      1 1 0 0 0 0 0 0
+			255     .         255 	 . 	255       .     192
+Verifying Subnet ID Bits identified 
+Host bits required in binary = 1 1 1 1 1 1 1 1   1 1 1 1 1 1 1 1   1 1 1 1 1 10 0   0 0 0 0 0 0 0 0
+Subnet id bits in binary =        1 1 1 1 1 1 1 1   1 1 1 1 1 1 1 1   1 1 1 1 1 11 1   1 1  0 0 0 0 0 0
+
+Subnet ID = 4 bits 
+The four bits borrowed for the subnet id will provide the network a number of subnet addresses.
+Subnet id bits - 4 bits (2x2x2x2) = 16
+The bits produce 16 subnet addresses however the first address represents the network and the last represents a broadcast address, therefore the design can have 14 usable number of subnet addresses.
+Host ID bits = 6 bits (2 x 2 x 2 x 2 x 2 x 2) 
+         = 64 – 2 (network and broadcast addresses) 
+         = 62 usable host addresses.
+A subnet within the enterprise can have up to 62 addresses assigned to hosts.
+RECOMPUTING ADDRESS UTILISATION
+Number of hosts = 225 (212 workstations, 13 router connections)
+Supernet Mask = /22
+Utilisation = 2(32 – supernet)
+Address space = 2(32 – 22) 
+                   = 2(10)
+	      = 1024
+Number of hosts / address space size x 100
+    225 / 1024 = 0.2197265625 x 100 
+		= 22%
+The new network address utilisation has doubled in percentage compared to the initial design utilisation. It is an improvement from the previous utilisation ensuring a huge number of addresses are not wasted on the network. The new supernet mask has generated less wasteful addresses because the number of host on the largest subnet is less than before causing the size variation is reduce.
+
+
+ASSIGNING IP ADDRESSES
+SALES SUBNET 1
+Supernet	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1      1 1 1 1 1 1 0 0    0 0 0 0 0 0 0 0	 /22
+Subnet Mask	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1       1 1 1 1 1 1 1 1    1 1 0 0 0 0 0 0	255.255.255.192
+Network Address	1 1 0 1 0 0 1 0       0 0 0 0 1 0 0 0      1 1 1 0 0 0 0 0    0 0 0 0 0 0 0 0	210.8.224.0
+Subnet Address	1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 0    0 1 0 0 0 0 0 0	210.8.224.64
+Router Interface	210. 8.224.65
+1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 0    0 1 0 0 0 0 0 1	Number of interfaces
+1
+Hosts Interfaces	210.8.224. 66  -  210.8.224.116	Number of interfaces - 50
+The first subnet address starts from the last bit borrowed in the binary system table
+SALES SUBNET 1
+Supernet	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1      1 1 1 1 1 1 0 0    0 0 0 0 0 0 0 0	 /22
+Subnet Mask	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1       1 1 1 1 1 1 1 1    1 1 0 0 0 0 0 0	255.255.255.192
+Network Address	1 1 0 1 0 0 1 0       0 0 0 0 1 0 0 0      1 1 1 0 0 0 0 0    0 0 0 0 0 0 0 0	210.8.224.0
+Subnet Address	1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 0    1 0 0 0 0 0 0 0	210.8.224.128
+Router 
+Interfaces	210. 8.224.129
+1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 0    1 0 0 0 0 0 0 1	Number of interfaces
+1
+Hosts Interface	210.8.224. 130  -  210.8.224.180	Number of interfaces - 50
+
+
+
+ACCOUNTS
+Supernet	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1      1 1 1 1 1 1 0 0    0 0 0 0 0 0 0 0	 /22
+Subnet Mask	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1       1 1 1 1 1 1 1 1    1 1 0 0 0 0 0 0	255.255.255.192
+Network Address	1 1 0 1 0 0 1 0       0 0 0 0 1 0 0 0      1 1 1 0 0 0 0 0    0 0 0 0 0 0 0 0	210.8.224.0
+Subnet Address	1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 0    1 1 0 0 0 0 0 0	210.8.224.192
+Router Interface	210. 8.224.193
+1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 0     1 1 0 0 0 0 0 1	Number of interfaces
+1
+Hosts Interfaces	210.8.224. 194  -  210.8.224.204	Number of interfaces - 12
+
+WAN LINKS
+Supernet	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1      1 1 1 1 1 1 0 0    0 0 0 0 0 0 0 0	 /22
+Subnet Mask	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1       1 1 1 1 1 1 1 1    1 1 0 0 0 0 0 0	255.255.255.192
+Network Address	1 1 0 1 0 0 1 0       0 0 0 0 1 0 0 0      1 1 1 0 0 0 0 0    0 0 0 0 0 0 0 0	210.8.224.0
+Subnet Address	1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 1    0 0 0 0 0 0 0 0	210.8.225.0
+Router Interface	WAN ROUTER 1 - 210. 8.225.1
+1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 1     0 0 0 0 0 0 0 1
+WAN ROUTER 2 – 210.8.255.2
+1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 1     0 0 0 0 0 0 1 0	Number of interfaces
+2
+
+
+
+
+
+BACKBONE
+Supernet	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1      1 1 1 1 1 1 0 0    0 0 0 0 0 0 0 0	 /22
+Subnet Mask	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1       1 1 1 1 1 1 1 1    1 1 0 0 0 0 0 0	255.255.255.192
+Network Address	1 1 0 1 0 0 1 0       0 0 0 0 1 0 0 0      1 1 1 0 0 0 0 0    0 0 0 0 0 0 0 0	210.8.224.0
+Subnet Address	1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 1     0 1 0 0 0 0 0 0	210.8.225.64
+Router Interface	WAN ROUTER- 210.8.225.65 
+1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 1     0 1 0 0 0 0 0 1
+R1-210.8.225.66
+1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0      1 1 1 0 0 0 0 1      0 1 0 0 0 0 1 0
+R2- 210.8.225.67
+1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 1     0 1 0 0 0 0 1 1	Number of interfaces
+3
+ 
+ASSEMBLY
+Supernet	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1      1 1 1 1 1 1 0 0    0 0 0 0 0 0 0 0	 /22
+Subnet Mask	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1       1 1 1 1 1 1 1 1    1 1 0 0 0 0 0 0	255.255.255.192
+Network Address	1 1 0 1 0 0 1 0       0 0 0 0 1 0 0 0      1 1 1 0 0 0 0 0    0 0 0 0 0 0 0 0	210.8.224.0
+Subnet Address	1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 1    1 0 0 0 0 0 0 0	210.8.225.128
+Router Interface	210. 8.225.129
+1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 1     1 0 0 0 0 0 0 1	Number of interfaces
+1
+Hosts Interfaces	210.8.225. 130  -  210.8.225.150	Number of interfaces - 20
+
+TESTING
+Supernet	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1      1 1 1 1 1 1 0 0         0 0 0 0 0 0 0 0	 /22
+Subnet Mask	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1       1 1 1 1 1 1 1 1        1 1 0 0 0 0 0 0	255.255.255.192
+Network Address	1 1 0 1 0 0 1 0    0 0 0 0 1 0 0 0    1 1 1 0 0 0 0 0    0 0 0 0 0 0 0 0	210.8.224.0
+Subnet Address	1 1 0 1 0 0 1 0    0 0 0 0 1 0 0 0     1 1 1 0 0 0 0 1    1 1 0 0 0 0 0 0	210.8.225.192
+Router Interface	210. 8.225.193
+1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 0 1     1 1 0 0 0 0 0 1	Number of interfaces
+1
+Hosts Interfaces	210.8.225. 194  -  210.8.225.214	Number of interfaces - 20
+
+DELIVERY
+Supernet	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1      1 1 1 1 1 1 0 0    0 0 0 0 0 0 0 0	 /22
+Subnet Mask	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1       1 1 1 1 1 1 1 1    1 1 0 0 0 0 0 0	255.255.255.192
+Network Address	1 1 0 1 0 0 1 0       0 0 0 0 1 0 0 0      1 1 1 0 0 0 0 0    0 0 0 0 0 0 0 0	210.8.224.0
+Subnet Address	1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 1 0    0 0 0 0 0 0 0 0	210.8.226.0
+Router Interface	210. 8.226.1
+1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 1 0     0 0 0 0 0 0 0 1	Number of interfaces
+1
+Hosts Interfaces	210.8.226. 2  -  210.8.226.22	Number of interfaces - 20
+
+DESIGN
+Supernet	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1      1 1 1 1 1 1 0 0    0 0 0 0 0 0 0 0	 /22
+Subnet Mask	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1       1 1 1 1 1 1 1 1    1 1 0 0 0 0 0 0	255.255.255.192
+Network Address	1 1 0 1 0 0 1 0       0 0 0 0 1 0 0 0      1 1 1 0 0 0 0 0    0 0 0 0 0 0 0 0	210.8.224.0
+Subnet Address	1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 1 0    0 1 0 0 0 0 0 0	210.8.226.64
+Network Router Interface	210. 8.226.65
+1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 1 0     0 1 0 0 0 0 0 1	Number of interfaces
+1
+Hosts Interfaces	210.8.226. 66  -  210.8.226.86	Number of interfaces - 20
+
+LOGISTICS
+Supernet	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1      1 1 1 1 1 1 0 0    0 0 0 0 0 0 0 0	 /22
+Subnet Mask	1 1 1 1 1 1 1 1      1 1 1 1 1 1 1 1       1 1 1 1 1 1 1 1    1 1 0 0 0 0 0 0	255.255.255.192
+Network Address	1 1 0 1 0 0 1 0       0 0 0 0 1 0 0 0      1 1 1 0 0 0 0 0    0 0 0 0 0 0 0 0	210.8.224.0
+Subnet Address	1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 1 0    1 0 0 0 0 0 0 0	210.8.226.128
+Network Router Interface	210. 8.226.129
+1 1 0 1 0 0 1 0      0 0 0 0 1 0 0 0       1 1 1 0 0 0 1 0     1 0 0 0 0 0 0 1	Number of interfaces
+1
+Hosts Interfaces	210.8.226. 130  -  210.8.226.150	Number of interfaces - 20
+
+EVALUATION
+There are different format of assigning IP addressing to a network infrastructure. The use of class address schemes, variable length and fixed addressing (classless inter-domain routing) are schemes that facilitate giving networks and their devices identifiers. The growth of the internet affects performance and the availability of IP addresses for networks. The technique used with the design in this report is an alternative fix to efficiency however results in wasting IP addresses.The use of the fix address scheme in this network design was time consuming having to compute the companys supernet and subnet identifiers. However, it provided networks with sufficient addresses for their hosts and more in case of future expansion. 
